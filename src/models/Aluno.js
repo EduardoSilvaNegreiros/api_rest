@@ -11,6 +11,12 @@ export default class Aluno extends Model {
       altura: Sequelize.FLOAT,
     }, {
       sequelize,
+      modelName: 'Aluno',
+      tableName: 'alunos', 
+      underscored: true,
+      timestamps: true,
+      createdAt: 'created_at',
+      updatedAt: 'updated_at',
     });
     return this;
   }
