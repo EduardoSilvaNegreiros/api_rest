@@ -2,8 +2,9 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-import './src/database/index.js';
 import express from 'express';
+import { Sequelize } from 'sequelize';
+import Aluno from './src/models/Aluno.js';
 import homeRoutes from './src/routes/homeRoutes.js';
 
 class App {

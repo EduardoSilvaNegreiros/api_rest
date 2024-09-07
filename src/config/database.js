@@ -1,6 +1,3 @@
-import dotenv from 'dotenv';
-dotenv.config();
-
 module.exports = {
   dialect: 'mysql',
   host: process.env.DATABASE_HOST,
@@ -13,7 +10,6 @@ module.exports = {
   },
   timezone: 'America/Sao_Paulo',
 
-  /* ALL */
   define: {
     timestamps: true,
     underscored: true,
