@@ -1,5 +1,5 @@
 const databaseConfig = {
-  dialect: 'mysql',
+  dialect: 'mariadb',
   host: process.env.DATABASE_HOST,
   port: process.env.DATABASE_PORT,
   username: process.env.DATABASE_USERNAME,
@@ -17,7 +17,6 @@ const databaseConfig = {
   dialectOptions: {
     connectTimeout: 60000,
   },
-
 };
 
 export default databaseConfig;

@@ -1,4 +1,4 @@
-import { Sequelize, Model } from 'sequelize';
+import Sequelize, { Model } from 'sequelize';
 
 export default class Aluno extends Model {
   static init(sequelize) {
@@ -12,7 +12,7 @@ export default class Aluno extends Model {
     }, {
       sequelize,
       modelName: 'Aluno',
-      tableName: 'alunos', 
+      tableName: 'alunos',
       underscored: true,
       timestamps: true,
       createdAt: 'created_at',
