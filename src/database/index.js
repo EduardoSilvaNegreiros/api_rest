@@ -12,7 +12,7 @@ const connection = new Sequelize (
   process.env.DATABASE_USERNAME,
   process.env.DATABASE_PASSWORD,
   {
-    dialect: 'mariadb',
+    dialect: 'mysql',
     host: process.env.DATABASE_HOST,
     port: 3306,
     username: process.env.DATABASE_USERNAME,

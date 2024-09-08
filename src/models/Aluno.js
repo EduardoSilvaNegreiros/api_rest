@@ -3,6 +3,12 @@ import { Model, DataTypes } from 'sequelize';
 export default class Aluno extends Model {
   static init(sequelize) {
     super.init({
+      id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true, // Garante que a chave primária seja gerada automaticamente
+        allowNull: false,
+      },
       nome: DataTypes.STRING,
       sobrenome: DataTypes.STRING,
       email: DataTypes.STRING,
