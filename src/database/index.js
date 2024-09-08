@@ -7,10 +7,11 @@ import Aluno from '../models/Aluno.js';
 
 const models = [Aluno]
 
-const connection = new Sequelize (
+const connection = new Sequelize(
   process.env.DATABASE_NAME,
   process.env.DATABASE_USERNAME,
   process.env.DATABASE_PASSWORD,
+
   {
     dialect: 'mysql',
     host: process.env.DATABASE_HOST,
@@ -25,11 +26,13 @@ const connection = new Sequelize (
       createdAt: 'created_at',
       updatedAt: 'updated_at'
     },
+
     dialectOptions: {
       timezone: 'America/Sao_Paulo'
     },
+
     timezone: 'America/Sao_Paulo'
   }
 )
 
-models.forEach (model => model.init(connection))
+models.forEach(model => model.init(connection))
