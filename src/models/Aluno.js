@@ -1,4 +1,5 @@
 import { Model, DataTypes } from 'sequelize';
+import sequelize from '../config/database';
 
 export default class Aluno extends Model {
   static init(sequelize) {
@@ -6,11 +7,9 @@ export default class Aluno extends Model {
     super.init({
       id: {
         type: DataTypes.INTEGER,
-        primaryKey: true,
-        autoIncrement: true, // Garante que a chave primária seja gerada automaticamente
-        allowNull: false,
+        primaryKey: true,   // Define a chave primária
+        autoIncrement: true // Incremento automático para gerar IDs únicos
       },
-
       nome: DataTypes.STRING,
       sobrenome: DataTypes.STRING,
       email: DataTypes.STRING,
@@ -26,7 +25,7 @@ export default class Aluno extends Model {
       createdAt: 'created_at',
       updatedAt: 'updated_at',
     });
-    
+
     return this;
   }
 }
