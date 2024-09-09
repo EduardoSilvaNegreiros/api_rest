@@ -1,6 +1,8 @@
+import { Sequelize } from 'sequelize';
+
 require('dotenv').config();
 
-module.exports = {
+const sequelize = new Sequelize({
   dialect: 'mysql',
   host: process.env.DATABASE_HOST,
   port: process.env.DATABASE_PORT,
@@ -11,12 +13,12 @@ module.exports = {
     timezone: 'America/Sao_Paulo',
   },
   timezone: 'America/Sao_Paulo',
-
   define: {
     timestamps: true,
     underscored: true,
-    underscoredAll: true,
     createdAt: 'created_at',
     updatedAt: 'updated_at',
   },
-};
+});
+
+export default sequelize;
