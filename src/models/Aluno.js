@@ -1,21 +1,19 @@
-import { Model, DataTypes } from 'sequelize';
-import sequelize from '../config/database';
+import Sequelize, { Model } from "sequelize";
 
 export default class Aluno extends Model {
   static init(sequelize) {
-
     super.init({
       id: {
-        type: DataTypes.INTEGER,
-        primaryKey: true,   // Define a chave primária
-        autoIncrement: true // Incremento automático para gerar IDs únicos
+        type: Sequelize.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
       },
-      nome: DataTypes.STRING,
-      sobrenome: DataTypes.STRING,
-      email: DataTypes.STRING,
-      idade: DataTypes.INTEGER,
-      peso: DataTypes.FLOAT,
-      altura: DataTypes.FLOAT,
+      nome: Sequelize.STRING,
+      sobrenome: Sequelize.STRING,
+      email: Sequelize.STRING,
+      idade: Sequelize.INTEGER,
+      peso: Sequelize.FLOAT,
+      altura: Sequelize.FLOAT,
     }, {
       sequelize,
       modelName: 'Aluno',
@@ -29,4 +27,3 @@ export default class Aluno extends Model {
     return this;
   }
 }
-
