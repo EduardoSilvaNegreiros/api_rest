@@ -36,7 +36,7 @@ class UserController {
 
   async update(req, res) {
     try {
-      if (req.params.id) {
+      if (!req.params.id) {
         return res.status(400).json({
           erros: ['ID não enviado.'],
         });
@@ -54,7 +54,7 @@ class UserController {
 
       return res.json(novosDados);
     } catch (e) {
-      return req.json(null);
+      return res.json(null);
     }
   }
 
