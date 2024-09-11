@@ -18,7 +18,9 @@ User.init({
 
   email: {
     type: DataTypes.STRING,
-    unique: true,
+    unique: {
+      msg: 'Email já existe',
+    },
     defaultValue: '',
     validate: {
       isEmail: {
