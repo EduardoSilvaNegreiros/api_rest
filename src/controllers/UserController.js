@@ -10,7 +10,7 @@ class UserController {
       });
       res.json(novoUser);
     } catch (e) {
-      res.status(400).json('Deu um erro');
+      res.status(400).json(e.errors.map((err) => err.message));
     }
   }
 }
