@@ -22,15 +22,15 @@ const connection = new Sequelize(
       underscored: true,
       underscoredAll: true,
       createdAt: 'created_at',
-      updatedAt: 'updated_at'
+      updatedAt: 'updated_at',
     },
 
     dialectOptions: {
-      timezone: 'America/Sao_Paulo'
+      timezone: 'America/Sao_Paulo',
     },
 
-    timezone: 'America/Sao_Paulo'
-  }
-)
+    timezone: 'America/Sao_Paulo',
+  },
+);
 
-models.forEach(model => model.init(connection))
+models.forEach((model) => model.init(connection));
