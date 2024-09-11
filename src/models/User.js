@@ -1,4 +1,5 @@
 import { DataTypes, Model } from 'sequelize';
+import bcryptjs from 'bcryptjs';
 import sequelize from '../config/database';
 
 class User extends Model { }
@@ -45,6 +46,9 @@ User.init({
   timestamps: true,
   createdAt: 'created_at',
   updatedAt: 'updated_at',
-});
+},
+this.addHook('beforeSave', async user => {
+  user.password_hash = await bcryptjs.hash();
+}));
 
 export default User;
