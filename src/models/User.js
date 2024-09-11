@@ -32,7 +32,7 @@ User.init({
   },
 
   password: {
-    type: DataTypes.STRING,
+    type: DataTypes.VIRTUAL,
     defaultValue: '',
     validate: {
       len: {
@@ -49,10 +49,10 @@ User.init({
   timestamps: true,
   createdAt: 'created_at',
   updatedAt: 'updated_at',
-},
+});
 
-this.addHook('beforeSave', async user => {
+User.addHook('beforeSave', async (user) => {
   user.password_hash = await bcryptjs.hash(user.password, 8);
-}));
+})
 
 export default User;
