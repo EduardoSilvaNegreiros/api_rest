@@ -15,6 +15,7 @@ User.init({
       },
     },
   },
+
   email: {
     type: DataTypes.STRING,
     defaultValue: '',
@@ -24,10 +25,12 @@ User.init({
       },
     },
   },
+
   password_hash: {
     type: DataTypes.STRING,
     defaultValue: '',
   },
+
   password: {
     type: DataTypes.STRING,
     defaultValue: '',
@@ -47,8 +50,9 @@ User.init({
   createdAt: 'created_at',
   updatedAt: 'updated_at',
 },
+
 this.addHook('beforeSave', async user => {
-  user.password_hash = await bcryptjs.hash();
+  user.password_hash = await bcryptjs.hash(user.password, 8);
 }));
 
 export default User;
