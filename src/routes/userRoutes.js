@@ -10,8 +10,8 @@ router.get('/:id', userController.show); // Lista usuário (Falha de segurança)
 
 // São necessários (Não é falha de segurança)
 router.post('/', userController.store);
-router.put('/', userController.update); // Não pode usar o Id para deixar o usuário editar
-router.delete('/', userController.delete); // Não pode usar o Id para deixar o usuário deletar
+router.put('/', loginRequired, userController.update); // Não pode usar o Id para deixar o usuário editar, mas precisa fazer login para acessar e o usuário poder atualizar suas próprias informações
+router.delete('/', loginRequired, userController.delete); // Não pode usar o Id para deixar o usuário deletar
 
 export default router;
 
