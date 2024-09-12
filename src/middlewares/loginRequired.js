@@ -11,6 +11,7 @@ export default (req, res, next) => {
 
   const [, token] = authorization.split(' ');
 
+  // Agora quem controla o login é o usuário, não o desenvolvedor
   try {
     const dados = jwt.verify(token, process.env.TOKEN_SECRET);
     const { id, email } = dados;

@@ -4,11 +4,14 @@ import loginRequired from '../middlewares/loginRequired';
 
 const router = new Router();
 
+// Não deveria existir
+router.get('/', userController.index); // Lista usuários (Falha de segurança)
+router.get('/:id', userController.show); // Lista usuário (Falha de segurança)
+
+// São necessários (Não é falha de segurança)
 router.post('/', userController.store);
-router.get('/', loginRequired, userController.index);
-router.get('/:id', userController.show);
-router.put('/:id', userController.update);
-router.delete('/:id', userController.delete);
+router.put('/', userController.update); // Não pode usar o Id para deixar o usuário editar
+router.delete('/', userController.delete); // Não pode usar o Id para deixar o usuário deletar
 
 export default router;
 
