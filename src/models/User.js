@@ -2,7 +2,11 @@ import { DataTypes, Model } from 'sequelize';
 import bcryptjs from 'bcryptjs';
 import sequelize from '../config/database';
 
-class User extends Model { }
+class User extends Model {
+  passwordIsValid(password) {
+    return bcryptjs.compare(password, this.password_hash);
+  }
+}
 
 User.init({
   nome: {
