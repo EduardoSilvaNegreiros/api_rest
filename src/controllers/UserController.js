@@ -12,7 +12,7 @@ class UserController {
     }
   }
 
-  //Index
+  // Index
   async index(req, res) {
     try {
       const users = await User.findAll();
@@ -21,7 +21,7 @@ class UserController {
       return req.json(null);
     }
   }
-  //Show
+  // Show
 
   async show(req, res) {
     try {
@@ -32,8 +32,7 @@ class UserController {
     }
   }
 
-  //Update
-
+  // Update
   async update(req, res) {
     try {
       if (!req.params.id) {
@@ -58,7 +57,7 @@ class UserController {
     }
   }
 
-  //Delete
+  // Delete
 }
 
 export default new UserController();
