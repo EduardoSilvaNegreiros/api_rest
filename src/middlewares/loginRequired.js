@@ -5,17 +5,18 @@ export default (req, res, next) => {
 
   if (!authorization) {
     return res.status(401).json({
-      errors: ['Precisa fazer login'],
+      errors: ['Login não realizado'],
     });
   }
 
-  const [texto, token] = authorization.split(' ');
+  const [, token] = authorization.split(' ');
 
   try {
     const dados = jwt.verify(token, process.env.TOKEN_SECRET);
     const { id, email } = dados;
-    req.user.id = id;
-    req.user.Email = email;
+    req.userId = id;
+    req.userEmail = email;
+    return next();
   } catch (e) {
     return res.status(401).json({
       erros: ['Token expirado ou inválido'],
