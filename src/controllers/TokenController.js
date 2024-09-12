@@ -1,7 +1,7 @@
 import User from '../models/User';
 
 class TokenController {
-  async index(req, res) {
+  async store(req, res) {
     res.json('OK');
   }
 }
