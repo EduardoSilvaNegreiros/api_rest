@@ -64,9 +64,9 @@ class UserController { // Define a classe UserController que contem métodos par
       // Retorna os dados atualizados do usuário em formato JSON
       return res.json({ id, nome, email });
     } catch (e) {
-      // Em caso de erro, retorna status 400 e uma lista de mensagens de erro
+      const errorMessages = e.errors ? e.errors.map((err) => err.message) : ['Erro inesperado ao atualizar o usuário.'];
       return res.status(400).json({
-        errors: e.errors.map((err) => err.message),
+        erros: errorMessages,
       });
     }
   }
