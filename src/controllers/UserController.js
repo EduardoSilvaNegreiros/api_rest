@@ -53,7 +53,7 @@ class UserController { // Define a classe UserController que contem métodos par
       // Verifica se o usuário existe
       if (!user) {
         return res.status(400).json({
-          erros: ['Usuário não existe'], // Retorna um erro se o usuário não for encontrado
+          errors: ['Usuário não existe'], // Retorna um erro se o usuário não for encontrado
         });
       }
 
@@ -66,7 +66,7 @@ class UserController { // Define a classe UserController que contem métodos par
     } catch (e) {
       const errorMessages = e.errors ? e.errors.map((err) => err.message) : ['Erro inesperado ao atualizar o usuário.'];
       return res.status(400).json({
-        erros: errorMessages,
+        errors: errorMessages,
       });
     }
   }
@@ -77,7 +77,7 @@ class UserController { // Define a classe UserController que contem métodos par
       // Verifica se o ID foi fornecido na requisição
       if (!req.params.id) {
         return res.status(400).json({
-          erros: ['ID não enviado.'], // Retorna um erro se o ID não for fornecido
+          errors: ['ID não enviado.'], // Retorna um erro se o ID não for fornecido
         });
       }
 
@@ -87,7 +87,7 @@ class UserController { // Define a classe UserController que contem métodos par
       // Verifica se o usuário existe
       if (!user) {
         return res.status(400).json({
-          erros: ['Usuário não existe'], // Retorna um erro se o usuário não for encontrado
+          errors: ['Usuário não existe'], // Retorna um erro se o usuário não for encontrado
         });
       }
 
