@@ -13,8 +13,18 @@ export default async (req, res, next) => {
   const [, token] = authorization.split(' ');
 
   try {
-    const { id, email } = jwt.verify(token, process.env.TOKEN_SECRET);
+    // Verificar o token e garantir que 'id' e 'email' são primitivos
+    const dados = jwt.verify(token, process.env.TOKEN_SECRET);
+    const { id, email } = dados;
 
+    // Garantir que id e email sejam valores primitivos
+    if (typeof id !== 'number' || typeof email !== 'string') {
+      return res.status(401).json({
+        errors: ['Dados do token inválidos'],
+      });
+    }
+
+    // Verificar se o usuário existe
     const user = await User.findOne({
       where: {
         id,
