@@ -6,19 +6,14 @@ export default async (req, res, next) => {
 
   if (!authorization) {
     return res.status(401).json({
-      errors: ['Login required'],
+      errors: ['Login requerido'],
     });
   }
 
   const [, token] = authorization.split(' ');
 
   try {
-    const dados = jwt.verify(token, process.env.TOKEN_SECRET);
-    const { id, email } = dados;
-
-    console.log('Token Data:', dados); // Log para verificar os dados decodificados
-    console.log('ID:', id);
-    console.log('Email:', email);
+    const { id, email } = jwt.verify(token, process.env.TOKEN_SECRET);
 
     const user = await User.findOne({
       where: {
@@ -33,11 +28,10 @@ export default async (req, res, next) => {
       });
     }
 
-    req.userId = id;
-    req.userEmail = email;
+    req.userId = user.id;
+    req.userEmail = user.email;
     return next();
   } catch (e) {
-    console.error('Error verifying token:', e); // Log para verificar erros
     return res.status(401).json({
       errors: ['Token expirado ou inválido.'],
     });
