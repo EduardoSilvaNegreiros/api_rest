@@ -20,15 +20,12 @@ class UserController { // Define a classe UserController que contem métodos par
   async index(req, res) {
     try {
       // Recupera todos os usuários do banco de dados
-      const users = await User.findAll();
-      // Exibe o ID e o e-mail do usuário autenticado (para depuração)
-      console.log('USER ID', req.userId);
-      console.log('USER EMAIL', req.userEmail);
+      const users = await User.findAll({ attributes: ['id', 'nome', 'email'] }); // Para exibir apenas os atributos selecionados no Index
       // Retorna a lista de usuários em formato JSON
       return res.json(users);
     } catch (e) {
       // Em caso de erro, retorna null
-      return req.json(null);
+      return res.json(null);
     }
   }
 
@@ -37,26 +34,21 @@ class UserController { // Define a classe UserController que contem métodos par
     try {
       // Recupera o usuário com o ID fornecido nos parâmetros da requisição
       const user = await User.findByPk(req.params.id);
-      // Retorna o usuário em formato JSON
-      return res.json(user);
+      // Mostrar o que queremos para o usuário dentro de show
+      const { id, nome, email } = user;
+      // Retorna os dados em formato JSON
+      return res.json({ id, nome, email });
     } catch (e) {
       // Em caso de erro, retorna null
-      return req.json(null);
+      return res.json(null);
     }
   }
 
   // Método para atualizar um usuário existente
   async update(req, res) {
     try {
-      // Verifica se o ID foi fornecido na requisição
-      if (!req.params.id) {
-        return res.status(400).json({
-          erros: ['ID não enviado.'], // Retorna um erro se o ID não for fornecido
-        });
-      }
-
       // Recupera o usuário com o ID fornecido
-      const user = await User.findByPk(req.params.id);
+      const user = await User.findByPk(req.userId);
 
       // Verifica se o usuário existe
       if (!user) {
@@ -67,13 +59,14 @@ class UserController { // Define a classe UserController que contem métodos par
 
       // Atualiza o usuário com os novos dados fornecidos no corpo da requisição
       const novosDados = await user.update(req.body);
+      const { id, nome, email } = novosDados;
 
       // Retorna os dados atualizados do usuário em formato JSON
-      return res.json(novosDados);
+      return res.json({ id, nome, email });
     } catch (e) {
       // Em caso de erro, retorna status 400 e uma lista de mensagens de erro
       return res.status(400).json({
-        errors: e.errors.map((err) => err.message), // Mapeia as mensagens de erro
+        errors: e.errors.map((err) => err.message),
       });
     }
   }
