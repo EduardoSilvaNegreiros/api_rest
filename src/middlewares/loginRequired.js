@@ -6,32 +6,40 @@ export default async (req, res, next) => {
 
   if (!authorization) {
     return res.status(401).json({
-      errors: ['Login não realizado'],
+      errors: ['Login required'],
     });
   }
 
   const [, token] = authorization.split(' ');
 
-  // Agora quem controla o login é o usuário, não o desenvolvedor
   try {
     const dados = jwt.verify(token, process.env.TOKEN_SECRET);
     const { id, email } = dados;
+
+    console.log('Token Data:', dados); // Log para verificar os dados decodificados
+    console.log('ID:', id);
+    console.log('Email:', email);
+
     const user = await User.findOne({
-      where: id,
-      email,
+      where: {
+        id,
+        email,
+      },
     });
 
     if (!user) {
       return res.status(401).json({
-        errors: ['Usuário Inválido'],
+        errors: ['Usuário inválido'],
       });
     }
+
     req.userId = id;
     req.userEmail = email;
     return next();
   } catch (e) {
+    console.error('Error verifying token:', e); // Log para verificar erros
     return res.status(401).json({
-      errors: ['Token expirado ou inválido'],
+      errors: ['Token expirado ou inválido.'],
     });
   }
 };

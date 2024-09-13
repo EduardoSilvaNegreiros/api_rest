@@ -6,8 +6,9 @@ class UserController { // Define a classe UserController que contem métodos par
     try {
       // Cria um novo usuário com os dados fornecidos no corpo da requisição
       const novoUser = await User.create(req.body);
+      const { id, nome, email } = novoUser;
       // Retorna o novo usuário em formato JSON
-      return res.json(novoUser);
+      return res.json({ id, nome, email });
     } catch (e) {
       // Em caso de erro, retorna status 400 e uma lista de mensagens de erro
       return res.status(400).json({
@@ -47,7 +48,8 @@ class UserController { // Define a classe UserController que contem métodos par
   // Método para atualizar um usuário existente
   async update(req, res) {
     try {
-      // Recupera o usuário com o ID fornecido
+      const userId = req.userId.id ? req.userId.id : req.userId;
+      console.log('ID do usuário:', userId); // Recupera o usuário com o ID fornecido
       const user = await User.findByPk(req.userId);
 
       // Verifica se o usuário existe
@@ -64,23 +66,16 @@ class UserController { // Define a classe UserController que contem métodos par
       // Retorna os dados atualizados do usuário em formato JSON
       return res.json({ id, nome, email });
     } catch (e) {
-      const errorMessages = e.errors ? e.errors.map((err) => err.message) : ['Erro inesperado ao atualizar o usuário.'];
-      return res.status(400).json({
-        errors: errorMessages,
-      });
+      console.error('Erro:', e); // Adiciona logging para depuração
+
+      const errorMessages = e.errors && Array.isArray(e.errors) ? e.errors.map((err) => err.message) : ['Erro desconhecido'];
+      return res.status(400).json({ errors: errorMessages });
     }
   }
 
   // Método para deletar um usuário
   async delete(req, res) {
     try {
-      // Verifica se o ID foi fornecido na requisição
-      if (!req.params.id) {
-        return res.status(400).json({
-          errors: ['ID não enviado.'], // Retorna um erro se o ID não for fornecido
-        });
-      }
-
       // Recupera o usuário com o ID fornecido
       const user = await User.findByPk(req.params.id);
 

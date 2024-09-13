@@ -1,4 +1,4 @@
-import { DataTypes, Model } from 'sequelize';
+import Sequelize, { Model } from 'sequelize';
 import bcryptjs from 'bcryptjs';
 import sequelize from '../config/database';
 
@@ -10,7 +10,7 @@ class User extends Model {
 
 User.init({
   nome: {
-    type: DataTypes.STRING,
+    type: Sequelize.STRING,
     defaultValue: '',
     validate: {
       len: {
@@ -21,7 +21,7 @@ User.init({
   },
 
   email: {
-    type: DataTypes.STRING,
+    type: Sequelize.STRING,
     unique: {
       msg: 'Email já existe',
     },
@@ -34,12 +34,12 @@ User.init({
   },
 
   password_hash: {
-    type: DataTypes.STRING,
+    type: Sequelize.STRING,
     defaultValue: '',
   },
 
   password: {
-    type: DataTypes.VIRTUAL,
+    type: Sequelize.VIRTUAL,
     defaultValue: '',
     validate: {
       len: {
