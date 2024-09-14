@@ -21,6 +21,8 @@ export default async (req, res, next) => {
     const dados = jwt.verify(token, process.env.TOKEN_SECRET);
     const { id, email } = dados;
 
+    console.log('Dados do token:', { id, email });
+
     // Faz uma consulta ao banco de dados para verificar se existe um usuário com o 'id' e 'email'
     const user = await User.findOne({
       where: {
@@ -28,6 +30,8 @@ export default async (req, res, next) => {
         email,
       },
     });
+
+    console.log('Resultado da busca no banco de dados:', user);
 
     // Se o usuário não for encontrado, retorna um erro 401.
     if (!user) {
@@ -44,6 +48,7 @@ export default async (req, res, next) => {
     // Chama o próximo middleware da cadeia.
     return next();
   } catch (e) {
+    console.error('Erro ao verificar o token:', e);
     // Se houver qualquer erro durante a verificação do token
     return res.status(401).json({
       errors: ['Token expirado ou inválido.'],
