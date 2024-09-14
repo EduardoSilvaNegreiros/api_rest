@@ -1,4 +1,5 @@
 import jwt from 'jsonwebtoken'; // Importa a biblioteca jsonwebtoken para criar e verificar tokens JWT.
+
 import User from '../models/User'; // Importa o modelo de usuário para fazer consultas no banco de dados.
 
 class TokenController {
