@@ -11,7 +11,7 @@ class TokenController {
     // Verifica se o 'email' ou 'password' estão vazios.
     if (!email || !password) {
       return res.status(401).json({
-        errors: ['Credenciais Inválidas'], // Retorna uma mensagem de erro se as credenciais forem inválidas.
+        errors: ['E-mail Inválido'], // Retorna uma mensagem de erro se o email for invalido
       });
     }
 

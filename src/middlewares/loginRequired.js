@@ -21,13 +21,6 @@ export default async (req, res, next) => {
     const dados = jwt.verify(token, process.env.TOKEN_SECRET);
     const { id, email } = dados;
 
-    // Verifica se o 'id' é um número e se o 'email' é uma string.
-    if (typeof id !== 'number' || typeof email !== 'string') {
-      return res.status(401).json({
-        errors: ['Dados do token inválidos'],
-      });
-    }
-
     // Faz uma consulta ao banco de dados para verificar se existe um usuário com o 'id' e 'email'
     const user = await User.findOne({
       where: {
