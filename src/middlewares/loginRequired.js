@@ -1,12 +1,10 @@
 import jwt from 'jsonwebtoken'; // Importa o módulo JWT (JSON Web Token) para gerar e verificar tokens.
-import User from '../models/User'; // Importa o modelo de Usuário para fazer consultas no banco de dados.
 
 export default async (req, res, next) => {
   const { authorization } = req.headers; // Extrai o cabeçalho de autorização da requisição.
 
   // Verifica se o cabeçalho de autorização está presente. Se não estiver, retorna erro 401.
   if (!authorization) {
-    console.error('Cabeçalho de autorização ausente.');
     return res.status(401).json({
       errors: ['Login requerido'],
     });
@@ -20,39 +18,9 @@ export default async (req, res, next) => {
     // Verifica o token JWT usando a chave secreta armazenada em 'process.env.TOKEN_SECRET'.
     // Se o token for válido, extrai os dados (id e email) contidos no token.
     const dados = jwt.verify(token, process.env.TOKEN_SECRET);
-    console.log('Dados do token:', dados);
-
     const { id, email } = dados;
-
-    // Verifica se 'id' é um objeto e ajusta conforme necessário
-    const userId = typeof id === 'object' ? id.id : id;
-    console.log('ID usado na consulta:', userId);
-    console.log('Dados do token:', { id, email });
-    console.log('Tipo de id:', typeof id);
-    console.log('Tipo de email:', typeof email);
-
-    // Faz uma consulta ao banco de dados para verificar se existe um usuário com o 'id' e 'email'
-    const user = await User.findOne({
-      where: {
-        id: userId,
-        email,
-      },
-    });
-
-    console.log('Resultado da busca no banco de dados:', user);
-
-    // Se o usuário não for encontrado, retorna um erro 401.
-    if (!user) {
-      console.error('Usuário não encontrado com os dados fornecidos:', { userId, email });
-      return res.status(401).json({
-        errors: ['Usuário inválido'],
-      });
-    }
-
-    // Se o usuário for encontrado, adiciona o 'id' e o 'email' do usuário à requisição (req),
-    // para que possam ser usados nas próximas etapas do processo.
-    req.userId = user.id;
-    req.userEmail = user.email;
+    req.userId = id;
+    req.userEmail = email;
 
     // Chama o próximo middleware da cadeia.
     return next();
