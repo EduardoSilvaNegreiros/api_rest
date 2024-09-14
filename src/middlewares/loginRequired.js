@@ -57,7 +57,7 @@ export default async (req, res, next) => {
     // Chama o próximo middleware da cadeia.
     return next();
   } catch (e) {
-    console.error('Erro ao verificar o token:', e);
+    console.error('Erro ao verificar o token:', e.message);
     // Se houver qualquer erro durante a verificação do token
     return res.status(401).json({
       errors: ['Token expirado ou inválido.'],
