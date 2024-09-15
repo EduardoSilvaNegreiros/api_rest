@@ -41,17 +41,16 @@ class UserController { // Define a classe UserController que contem métodos par
       }
 
       const user = await User.findByPk(userId);
-      console.log(`Recebido ID: ${userId}`);
-
       if (!user) {
+        console.error('Usuário não encontrado');
         return res.status(404).json({ errors: ['Usuário não encontrado'] });
       }
 
+      console.log(`Usuário encontrado: ${user}`);
       const { id, nome, email } = user;
       return res.json({ id, nome, email });
     } catch (e) {
       console.error('Erro desconhecido:', e);
-
       return res.status(500).json({ errors: ['Erro desconhecido'] });
     }
   }
