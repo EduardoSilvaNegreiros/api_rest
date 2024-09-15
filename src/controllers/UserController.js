@@ -33,15 +33,26 @@ class UserController { // Define a classe UserController que contem métodos par
   // Método para mostrar um usuário específico baseado no ID fornecido
   async show(req, res) {
     try {
-      // Recupera o usuário com o ID fornecido nos parâmetros da requisição
-      const user = await User.findByPk(req.params.id);
-      // Mostrar o que queremos para o usuário dentro de show
+      const userId = req.params.id;
+      console.log(`Recebido ID: ${userId}`);
+
+      if (!userId || Number.isNaN(Number(userId))) {
+        return res.status(400).json({ errors: ['ID inválido'] });
+      }
+
+      const user = await User.findByPk(userId);
+      console.log(`Recebido ID: ${userId}`);
+
+      if (!user) {
+        return res.status(404).json({ errors: ['Usuário não encontrado'] });
+      }
+
       const { id, nome, email } = user;
-      // Retorna os dados em formato JSON
       return res.json({ id, nome, email });
     } catch (e) {
-      // Em caso de erro, retorna null
-      return res.json(null);
+      console.error('Erro desconhecido:', e);
+
+      return res.status(500).json({ errors: ['Erro desconhecido'] });
     }
   }
 
@@ -49,8 +60,8 @@ class UserController { // Define a classe UserController que contem métodos par
   // Método para atualizar um usuário existente
   async update(req, res) {
     try {
-      console.log('Atualizando usuário com ID:', req.userId);
-      const user = await User.findByPk(req.userId);
+      console.log('Atualizando usuário com ID:', req.userId.id);
+      const user = await User.findByPk(req.userId.id);
 
       // Verifica se o usuário existe
       if (!user) {
