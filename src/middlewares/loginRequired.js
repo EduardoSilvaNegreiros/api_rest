@@ -20,7 +20,9 @@ export default async (req, res, next) => {
     // Se o token for válido, extrai os dados (id e email) contidos no token.
     const dados = jwt.verify(token, process.env.TOKEN_SECRET);
     const userId = dados.id; // Extrai o valor numérico do id
-    const user = await User.findOne({ where: { id: userId } });
+    const user = await User.findOne({
+      where: { id: userId },
+    });
 
     if (!user) {
       return res.status(401).json({
@@ -31,8 +33,6 @@ export default async (req, res, next) => {
     // Chama o próximo middleware da cadeia.
     return next();
   } catch (e) {
-    console.log('Erro:', e);
-
     // Se houver qualquer erro durante a verificação do token
     return res.status(401).json({
       errors: ['Token expirado ou inválido.'],
