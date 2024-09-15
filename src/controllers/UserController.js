@@ -56,7 +56,6 @@ class UserController { // Define a classe UserController que contem métodos par
   }
 
   // Método para atualizar um usuário existente
-  // Método para atualizar um usuário existente
   async update(req, res) {
     try {
       console.log('Atualizando usuário com ID:', req.userId.id);
