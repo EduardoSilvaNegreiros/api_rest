@@ -35,9 +35,22 @@ export default async (req, res, next) => {
   const user = await User.findOne({
     where: {
       id: userId,
-      email: userEmail,
     },
   });
+
+  if (!user) {
+    console.log('Usuário não encontrado no banco de dados');
+  } else {
+    console.log('Usuário encontrado:', user);
+    // Verifique se há alguma lógica de negócios que esteja marcando o usuário como inválido
+    if (!user.isValid()) {
+      console.log('Usuário inválido devido a:', user.getInvalidReason());
+    }
+  }
+
+  console.log('Dados decodificados:', dados);
+  console.log('ID do usuário:', userId);
+  console.log('E-mail do usuário:', userEmail);
 
   if (!user) {
     console.log('Erro ao buscar usuário:', userId, userEmail);
