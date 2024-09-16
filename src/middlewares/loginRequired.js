@@ -35,8 +35,14 @@ export default async (req, res, next) => {
       });
     }
 
-    // Chama o próximo middleware da cadeia.
-    return next();
+    try {
+      return next();
+    } catch (e) {
+      console.log('Erro ao chamar próximo middleware:', e);
+      return res.status(500).json({
+        errors: ['Erro interno do servidor'],
+      });
+    }
   } catch (e) {
     console.log('Erro ao verificar token:', e);
     return res.status(401).json({
