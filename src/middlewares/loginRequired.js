@@ -19,9 +19,12 @@ export default async (req, res, next) => {
     // Verifica o token JWT usando a chave secreta armazenada em 'process.env.TOKEN_SECRET'.
     // Se o token for válido, extrai os dados (id e email) contidos no token.
     const dados = jwt.verify(token, process.env.TOKEN_SECRET);
-    const userId = dados.id; // Extrai o valor numérico do id
+    const { id, email } = dados; // Extrai o valor numérico do id
     const user = await User.findOne({
-      where: { id: userId },
+      where: {
+        id,
+        email,
+      },
     });
 
     if (!user) {
