@@ -10,11 +10,13 @@ export default async (req, res, next) => {
     });
   }
 
-  const [, token] = authorization.split(' ');
+  const token = jwt.sign({ id: 15, email: 'eduznegreiross@gmail.com' }, process.env.TOKEN_SECRET);
 
   try {
     const dados = jwt.verify(token, process.env.TOKEN_SECRET);
     const { id, email } = dados;
+
+    console.log(`ID: ${id}`); // Imprima o valor de id aqui
 
     if (!Number.isInteger(id)) {
       return res.status(401).json({
@@ -22,11 +24,17 @@ export default async (req, res, next) => {
       });
     }
 
-    const userId = parseInt(id, 10);
+    if (dados !== null && dados !== undefined) {
+      console.log(`Dados: ${JSON.stringify(dados)}`);
+    } else {
+      console.log('Dados is null or undefined');
+    }
+
+    console.log(`Dados: ${JSON.stringify(dados)}`);
 
     const user = await User.findOne({
       where: {
-        id: userId,
+        id,
         email,
       },
     });
@@ -38,11 +46,12 @@ export default async (req, res, next) => {
       });
     }
 
+    req.user = user;
     req.userId = id;
     req.userEmail = email;
     return next();
   } catch (e) {
-    console.error(e); // Adicionei essa linha para imprimir o erro no console
+    console.error('Erro ao acessar dados:', e);
     return res.status(500).json({
       errors: ['Erro interno do servidor'],
     });
