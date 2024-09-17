@@ -58,23 +58,11 @@ class UserController { // Define a classe UserController que contem métodos par
   // Método para atualizar um usuário existente
   async update(req, res) {
     try {
-      console.log('req.userId:', req.userId);
-      console.log('req.userId.id:', req.userId.id);
-
-      if (!req.userId || !req.userId.id) {
+      const userIdValue = req.userId.id;
+      if (!userIdValue || !(typeof userIdValue === 'number' || typeof userIdValue === 'string')) {
         return res.status(401).json({ errors: ['Usuário não autenticado'] });
       }
-
-      const userId = req.userId && req.userId.id;
-
-      // Verifica se o usuário existe
-      if (!userId) {
-        console.error('Usuário não encontrado');
-        return res.status(400).json({
-          errors: ['Usuário não existe'],
-        });
-      }
-
+      const userId = req.userId.id;
       const user = await User.findByPk(userId);
 
       // Atualiza o usuário com os novos dados fornecidos no corpo da requisição
