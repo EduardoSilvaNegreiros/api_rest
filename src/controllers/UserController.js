@@ -5,32 +5,25 @@ class UserController { // Define a classe UserController que contem métodos par
   async store(req, res) {
     try {
       // Cria um novo usuário com os dados fornecidos no corpo da requisição
-      if (!req.body.nome || !req.body.email) {
-        return res.status(400).json({ errors: ['Nome e e-mail são obrigatórios'] });
-      }
-
       const novoUser = await User.create(req.body);
       const { id, nome, email } = novoUser;
+      // Retorna o novo usuário em formato JSON
       return res.json({ id, nome, email });
     } catch (e) {
-      return res.status(400).json({ errors: e.errors.map((err) => err.message) });
+      // Em caso de erro, retorna status 400 e uma lista de mensagens de erro
+      return res.status(400).json({
+        errors: e.errors.map((err) => err.message), // Mapeia as mensagens de erro
+      });
     }
   }
 
   // Método para listar todos os usuários
   async index(req, res) {
     try {
-      if (!req.body.nome || !req.body.email) {
-        return res.status(400).json({ errors: ['Nome e e-mail são obrigatórios'] });
-      }
       // Recupera todos os usuários do banco de dados
-      const user = await User.findAll({ attributes: ['id', 'nome', 'email'] }); // Para exibir apenas os atributos selecionados no Index
-      if (!user) {
-        return res.status(400).json({ errors: ['Usuário não existe'] });
-      }
-      const novosDados = await user.update(req.body);
-      const { id, nome, email } = novosDados;
-      return res.json({ id, nome, email });
+      const users = await User.findAll({ attributes: ['id', 'nome', 'email'] }); // Para exibir apenas os atributos selecionados no Index
+      // Retorna a lista de usuários em formato JSON
+      return res.json(users);
     } catch (e) {
       // Em caso de erro, retorna null
       return res.json(null);
