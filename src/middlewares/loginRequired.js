@@ -13,43 +13,38 @@ export default async (req, res, next) => {
   const [, token] = authorization.split(' ');
 
   try {
+    const dados = jwt.verify(token, process.env.TOKEN_SECRET);
+    const { id, email } = dados;
 
-    const dados = jwt.verify(token, process.env.TOKEN_SECRET, (err, decoded) => {
-    if (err) {
-      console.log(err);
-    } else {
-      console.log(decoded);
+    if (!Number.isInteger(id)) {
+      return res.status(401).json({
+        errors: ['Token inválido'],
+      });
     }
-  });
+
+    const userId = parseInt(id, 10);
+
+    const user = await User.findOne({
+      where: {
+        id: userId,
+        email,
+      },
+    });
+
+    if (!user) {
+      console.log(`User not found with id ${id} and email ${email}`); // Adicione este log
+      return res.status(401).json({
+        errors: ['Usuário inválido'],
+      });
+    }
+
+    req.userId = id;
+    req.userEmail = email;
+    return next();
   } catch (e) {
-    console.log(e);
-  }
-
-
-
-  const { id, email } = dados;
-  const userId = Number(id);
-
-  const user = await User.findOne({
-    where: {
-      id: userId,
-      email,
-    },
-  });
-
-  if (!user) {
-    console.log(`User not found with id ${id} and email ${email}`); // Adicione este log
-    return res.status(401).json({
-      errors: ['Usuário inválido'],
+    console.error(e); // Adicionei essa linha para imprimir o erro no console
+    return res.status(500).json({
+      errors: ['Erro interno do servidor'],
     });
   }
-
-  req.userId = id;
-  req.userEmail = email;
-  return next();
-} catch (e) {
-  return res.status(401).json({
-    errors: ['Token expirado ou inválido.'],
-  });
-}
 };
