@@ -58,23 +58,38 @@ class UserController { // Define a classe UserController que contem métodos par
   // Método para atualizar um usuário existente
   async update(req, res) {
     try {
-      const user = await User.findByPk(req.userId.id);
+      console.log('req.userId:', req.userId);
+      console.log('req.userId.id:', req.userId.id);
+
+      if (!req.userId || !req.userId.id) {
+        return res.status(401).json({ errors: ['Usuário não autenticado'] });
+      }
+
+      const userId = req.userId && req.userId.id;
 
       // Verifica se o usuário existe
-      if (!user) {
+      if (!userId) {
         console.error('Usuário não encontrado');
         return res.status(400).json({
           errors: ['Usuário não existe'],
         });
       }
 
+      const user = await User.findByPk(userId);
+
       // Atualiza o usuário com os novos dados fornecidos no corpo da requisição
       const novosDados = await user.update(req.body);
       const { id, nome, email } = novosDados;
 
+      console.log('typeof req.userId:', req.userId);
+      console.log('typeof req.userId.id:', req.userId.id);
+
       // Retorna os dados atualizados do usuário em formato JSON
       return res.json({ id, nome, email });
     } catch (e) {
+      console.error('Erro desconhecido:', e);
+      console.log('req.body:', req.body);
+      console.log('req.userId:', req.userId);
       const errorMessages = e.errors && Array.isArray(e.errors) ? e.errors.map((err) => err.message) : ['Erro desconhecido'];
       return res.status(400).json({ errors: errorMessages });
     }
