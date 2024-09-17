@@ -13,28 +13,43 @@ export default async (req, res, next) => {
   const [, token] = authorization.split(' ');
 
   try {
-    const dados = jwt.verify(token, process.env.TOKEN_SECRET);
-    const { id, email } = dados;
 
-    const user = await User.findOne({
-      where: {
-        id,
-        email,
-      },
-    });
-
-    if (!user) {
-      return res.status(401).json({
-        errors: ['Usuário inválido'],
-      });
+    const dados = jwt.verify(token, process.env.TOKEN_SECRET, (err, decoded) => {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log(decoded);
     }
-
-    req.userId = id;
-    req.userEmail = email;
-    return next();
+  });
   } catch (e) {
+    console.log(e);
+  }
+
+
+
+  const { id, email } = dados;
+  const userId = Number(id);
+
+  const user = await User.findOne({
+    where: {
+      id: userId,
+      email,
+    },
+  });
+
+  if (!user) {
+    console.log(`User not found with id ${id} and email ${email}`); // Adicione este log
     return res.status(401).json({
-      errors: ['Token expirado ou inválido.'],
+      errors: ['Usuário inválido'],
     });
   }
+
+  req.userId = id;
+  req.userEmail = email;
+  return next();
+} catch (e) {
+  return res.status(401).json({
+    errors: ['Token expirado ou inválido.'],
+  });
+}
 };
