@@ -21,9 +21,12 @@ export default async (req, res, next) => {
   }
 
   const token = authorization.split(' ')[1];
-  const dados = verifyToken(token);
-
-  if (!dados) {
+  let dados;
+  try {
+    dados = jwt.verify(token, process.env.TOKEN_SECRET);
+    console.log('Token verificado com sucesso:', dados);
+  } catch (e) {
+    console.error('Erro ao verificar token:', e);
     return res.status(401).json({
       errors: ['Token expirado ou inválido.'],
     });
@@ -32,37 +35,32 @@ export default async (req, res, next) => {
   const userId = dados.id.id;
   const userEmail = dados.email;
 
-  const user = await User.findOne({
-    where: {
-      id: userId,
-    },
-  });
+  try {
+    const user = await User.findOne({
+      where: {
+        id: userId,
+      },
+    });
 
-  if (!user) {
-    console.log('Usuário não encontrado no banco de dados');
-  } else {
-    console.log('Usuário encontrado:', user);
-    // Verifique se há alguma lógica de negócios que esteja marcando o usuário como inválido
-    if (!user.isValid()) {
-      console.log('Usuário inválido devido a:', user.getInvalidReason());
+    if (!user) {
+      console.error('Usuário não encontrado no banco de dados:', userId, userEmail);
+      return res.status(401).json({
+        errors: ['Usuário Inválido'],
+      });
     }
-  }
 
-  console.log('Dados decodificados:', dados);
-  console.log('ID do usuário:', userId);
-  console.log('E-mail do usuário:', userEmail);
-
-  if (!user) {
-    console.log('Erro ao buscar usuário:', userId, userEmail);
-    return res.status(401).json({
-      errors: ['Usuário Inválido'],
+    console.log('Usuário encontrado com sucesso:', user);
+  } catch (e) {
+    console.error('Erro ao buscar usuário:', e);
+    return res.status(500).json({
+      errors: ['Erro interno do servidor'],
     });
   }
 
   try {
     return next();
   } catch (e) {
-    console.log('Erro ao chamar próximo middleware:', e);
+    console.error('Erro ao chamar próximo middleware:', e);
     return res.status(500).json({
       errors: ['Erro interno do servidor'],
     });
