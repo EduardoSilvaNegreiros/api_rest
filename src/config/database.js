@@ -1,8 +1,9 @@
 const dotenv = require('dotenv');
+const { Sequelize } = require('sequelize');
 
 dotenv.config();
 
-module.exports = {
+const config = {
   development: {
     dialect: 'mysql',
     host: process.env.DATABASE_HOST,
@@ -22,3 +23,23 @@ module.exports = {
     },
   },
 };
+
+const sequelize = new Sequelize(config.development);
+
+const loadConfig = async () => config;
+
+const Aluno = sequelize.define('Aluno', {
+  nome: {
+    type: sequelize.DataTypes.STRING,
+  },
+  email: {
+    type: sequelize.DataTypes.STRING,
+  },
+}, {
+  timestamps: true,
+  underscored: true,
+  createdAt: 'created_at',
+  updatedAt: 'updated_at',
+});
+
+module.exports = { sequelize, loadConfig, Aluno };
