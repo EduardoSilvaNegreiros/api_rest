@@ -89,14 +89,10 @@ class UserController { // Define a classe UserController que contem métodos par
   // Método para deletar um usuário
   async delete(req, res) {
     try {
-      const { id } = req.params;
-      console.log('Recebido ID:', id);
+      const { userId } = req;
+      console.log('Recebido ID:', userId);
 
-      if (!id || Number.isNaN(Number(id))) {
-        return res.status(400).json({ errors: ['ID inválido'] });
-      }
-
-      const user = await User.findByPk(id);
+      const user = await User.findByPk(userId);
       console.log('Usuário encontrado:', user);
 
       // Verifica se o usuário existe

@@ -10,13 +10,23 @@ export default async (req, res, next) => {
     });
   }
 
-  const token = jwt.sign({ id: 15, email: 'eduznegreiross@gmail.com' }, process.env.TOKEN_SECRET);
+  const token = req.headers.authorization;
+
+  jwt.verify(token, process.env.TOKEN_SECRET, { ignoreExpiration: true }, (err, decoded) => {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log(decoded);
+    }
+  });
 
   try {
     const dados = jwt.verify(token, process.env.TOKEN_SECRET);
+    console.log(dados);
+
     const { id, email } = dados;
 
-    console.log(`ID: ${id}`); // Imprima o valor de id aqui
+    console.log(`ID: ${id}`);
 
     if (!Number.isInteger(id)) {
       return res.status(401).json({
