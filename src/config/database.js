@@ -1,5 +1,5 @@
 const dotenv = require('dotenv');
-const { Sequelize } = require('sequelize');
+const { Sequelize, DataTypes } = require('sequelize');
 
 dotenv.config();
 
@@ -30,10 +30,10 @@ const loadConfig = async () => config;
 
 const Aluno = sequelize.define('Aluno', {
   nome: {
-    type: sequelize.DataTypes.STRING,
+    type: DataTypes.STRING,
   },
   email: {
-    type: sequelize.DataTypes.STRING,
+    type: DataTypes.STRING,
   },
 }, {
   timestamps: true,
