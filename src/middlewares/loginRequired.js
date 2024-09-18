@@ -7,6 +7,8 @@ export default async (req, res, next) => {
   try {
     const { authorization } = req.headers;
 
+    console.log('Authorization:', authorization);
+
     if (!authorization) {
       return res.status(401).json({
         errors: ['Login Requerido'],
@@ -15,11 +17,12 @@ export default async (req, res, next) => {
 
     const [, token] = authorization.split(' ');
 
-    const dados = jwt.verify(token, process.env.TOKEN_SECRET);
+    const dados = jwt.verify(token, tokenSecret);
+    console.log('Dados:', dados);
 
     const { id, email } = dados;
 
-    if (!Number.isInteger(id)) {
+    if (!Number.isInteger(dados.id.id)) {
       return res.status(401).json({
         errors: ['Token inválido'],
       });
@@ -42,7 +45,7 @@ export default async (req, res, next) => {
     req.userId = id;
     req.userEmail = email;
 
-    next();
+    return next();
   } catch (e) {
     if (e.name === 'TokenExpiredError') {
       return res.status(401).json({
