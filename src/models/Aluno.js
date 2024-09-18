@@ -1,7 +1,23 @@
-import { DataTypes, Model } from 'sequelize';
+import { DataTypes, Model, Sequelize } from 'sequelize';
 import sequelize from '../config/database';
 
-class Aluno extends Model {}
+Sequelize.define = {
+  freezeTableName: true,
+  underscored: true,
+  timestamps: true,
+  createdAt: 'created_at',
+  updatedAt: 'updated_at',
+};
+
+sequelize.options.define = {
+  freezeTableName: true,
+  underscored: true,
+  timestamps: true,
+  createdAt: 'created_at',
+  updatedAt: 'updated_at',
+};
+
+class Aluno extends Model { }
 
 Aluno.init({
   id: {

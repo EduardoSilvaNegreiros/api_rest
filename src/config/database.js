@@ -1,16 +1,15 @@
-const dotenv = require('dotenv');
-const { Sequelize, DataTypes } = require('sequelize');
+require('dotenv').config();
 
-dotenv.config();
+const { Sequelize } = require('sequelize');
 
-const config = {
-  development: {
-    dialect: 'mysql',
+const sequelize = new Sequelize(
+  process.env.DATABASE,
+  process.env.DATABASE_USERNAME,
+  process.env.DATABASE_PASSWORD,
+  {
     host: process.env.DATABASE_HOST,
     port: process.env.DATABASE_PORT,
-    username: process.env.DATABASE_USERNAME,
-    password: process.env.DATABASE_PASSWORD,
-    database: process.env.DATABASE,
+    dialect: 'mysql',
     dialectOptions: {
       timezone: 'America/Sao_Paulo',
     },
@@ -18,28 +17,11 @@ const config = {
     define: {
       timestamps: true,
       underscored: true,
+      underscoredAll: true,
       createdAt: 'created_at',
       updatedAt: 'updated_at',
     },
   },
-};
+);
 
-const sequelize = new Sequelize(config.development);
-
-const loadConfig = async () => config;
-
-const Aluno = sequelize.define('Aluno', {
-  nome: {
-    type: DataTypes.STRING,
-  },
-  email: {
-    type: DataTypes.STRING,
-  },
-}, {
-  timestamps: true,
-  underscored: true,
-  createdAt: 'created_at',
-  updatedAt: 'updated_at',
-});
-
-module.exports = { sequelize, loadConfig, Aluno };
+export default sequelize;
