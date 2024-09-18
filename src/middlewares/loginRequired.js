@@ -12,7 +12,6 @@ export default async (req, res, next) => {
 
   const [, token] = authorization.split(' ');
 
-  console.log(`Chave secreta: ${process.env.TOKEN_SECRET}`);
   try {
     const dados = jwt.verify(token, process.env.TOKEN_SECRET);
 
@@ -24,12 +23,6 @@ export default async (req, res, next) => {
       });
     }
 
-    if (dados !== null && dados !== undefined) {
-      console.log(`Dados: ${JSON.stringify(dados)}`);
-    } else {
-      console.log('Dados nullo ou indefinido');
-    }
-
     const user = await User.findOne({
       where: {
         id,
@@ -38,7 +31,6 @@ export default async (req, res, next) => {
     });
 
     if (!user) {
-      console.log(`Usuário não encontrado com o id ${id} e email ${email}`); // Adicione este log
       return res.status(401).json({
         errors: ['Usuário inválido'],
       });
