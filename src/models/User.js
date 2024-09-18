@@ -73,7 +73,6 @@ User.init({
 
 // Hook (gancho) que é executado antes de salvar o usuário no banco de dados.
 // Ele verifica se o campo 'password' foi preenchido e, se sim, gera um hash para essa senha.
-console.log('Adicionando hook beforeSave...');
 User.addHook('beforeSave', async (user) => {
   if (user.password) { // Se o campo 'password' foi informado,
     user.password_hash = await bcryptjs.hash(user.password, 8);

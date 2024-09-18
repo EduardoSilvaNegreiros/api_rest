@@ -10,23 +10,13 @@ export default async (req, res, next) => {
     });
   }
 
-  const token = req.headers.authorization;
+  const [, token] = authorization.split(' ');
 
-  jwt.verify(token, process.env.TOKEN_SECRET, { ignoreExpiration: true }, (err, decoded) => {
-    if (err) {
-      console.log(err);
-    } else {
-      console.log(decoded);
-    }
-  });
-
+  console.log(`Chave secreta: ${process.env.TOKEN_SECRET}`);
   try {
     const dados = jwt.verify(token, process.env.TOKEN_SECRET);
-    console.log(dados);
 
     const { id, email } = dados;
-
-    console.log(`ID: ${id}`);
 
     if (!Number.isInteger(id)) {
       return res.status(401).json({
@@ -37,10 +27,8 @@ export default async (req, res, next) => {
     if (dados !== null && dados !== undefined) {
       console.log(`Dados: ${JSON.stringify(dados)}`);
     } else {
-      console.log('Dados is null or undefined');
+      console.log('Dados nullo ou indefinido');
     }
-
-    console.log(`Dados: ${JSON.stringify(dados)}`);
 
     const user = await User.findOne({
       where: {
@@ -50,7 +38,7 @@ export default async (req, res, next) => {
     });
 
     if (!user) {
-      console.log(`User not found with id ${id} and email ${email}`); // Adicione este log
+      console.log(`Usuário não encontrado com o id ${id} e email ${email}`); // Adicione este log
       return res.status(401).json({
         errors: ['Usuário inválido'],
       });

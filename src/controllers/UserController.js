@@ -78,9 +78,6 @@ class UserController { // Define a classe UserController que contem métodos par
       // Retorna os dados atualizados do usuário em formato JSON
       return res.json({ id, nome, email });
     } catch (e) {
-      console.error('Erro desconhecido:', e);
-      console.log('req.body:', req.body);
-      console.log('req.userId:', req.userId);
       const errorMessages = e.errors && Array.isArray(e.errors) ? e.errors.map((err) => err.message) : ['Erro desconhecido'];
       return res.status(400).json({ errors: errorMessages });
     }
@@ -90,10 +87,8 @@ class UserController { // Define a classe UserController que contem métodos par
   async delete(req, res) {
     try {
       const { userId } = req;
-      console.log('Recebido ID:', userId);
 
       const user = await User.findByPk(userId);
-      console.log('Usuário encontrado:', user);
 
       // Verifica se o usuário existe
       if (!user) {
