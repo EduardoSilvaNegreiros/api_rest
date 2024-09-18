@@ -1,114 +1,89 @@
-import User from '../models/User'; // Importa o modelo User para interagir com a tabela de usuários no banco de dados.
+import User from '../models/User';
 
-class UserController { // Define a classe UserController que contem métodos para manipular usuário
-  // Método para criar um novo usuário
+class UserController {
   async store(req, res) {
     try {
-      // Cria um novo usuário com os dados fornecidos no corpo da requisição
       const novoUser = await User.create(req.body);
       const { id, nome, email } = novoUser;
-      // Retorna o novo usuário em formato JSON
       return res.json({ id, nome, email });
     } catch (e) {
-      // Em caso de erro, retorna status 400 e uma lista de mensagens de erro
       return res.status(400).json({
-        errors: e.errors.map((err) => err.message), // Mapeia as mensagens de erro
+        errors: e.errors.map((err) => err.message),
       });
     }
   }
 
-  // Método para listar todos os usuários
+  // Index
   async index(req, res) {
     try {
-      // Recupera todos os usuários do banco de dados
-      const users = await User.findAll({ attributes: ['id', 'nome', 'email'] }); // Para exibir apenas os atributos selecionados no Index
-      // Retorna a lista de usuários em formato JSON
+      const users = await User.findAll({ attributes: ['id', 'nome', 'email'] });
       return res.json(users);
     } catch (e) {
-      // Em caso de erro, retorna null
       return res.json(null);
     }
   }
 
-  // Método para mostrar um usuário específico baseado no ID fornecido
+  // Show
   async show(req, res) {
     try {
-      const userId = req.params.id;
-      console.log('Recebido ID:', req.params.id);
+      const user = await User.findByPk(req.params.id);
 
-      if (!userId || Number.isNaN(Number(userId))) {
-        return res.status(400).json({ errors: ['ID inválido'] });
-      }
-
-      const user = await User.findByPk(userId);
-      if (!user) {
-        console.error('Usuário não encontrado');
-        return res.status(404).json({ errors: ['Usuário não encontrado'] });
-      }
-
-      console.log(`Usuário encontrado: ${user}`);
       const { id, nome, email } = user;
       return res.json({ id, nome, email });
     } catch (e) {
-      console.error('Erro desconhecido:', e);
-      return res.status(500).json({ errors: ['Erro desconhecido'] });
+      return res.json(null);
     }
   }
 
-  // Método para atualizar um usuário existente
+  // Update
   async update(req, res) {
     try {
-      if (!req.userId || !(typeof req.userId === 'number' || typeof req.userId === 'string')) {
-        return res.status(401).json({ errors: ['Usuário não autenticado'] });
-      }
-
-      const user = await User.findByPk(req.userId, {
-        attributes: ['*'], // Busca todos os campos da tabela
-      });
+      console.log('Updating user:', req.userId);
+      const user = await User.findByPk(req.userId);
 
       if (!user) {
-        console.log('Usuário não encontrado com ID:', req.userId);
-        return res.status(404).json({ errors: ['Usuário não encontrado'] });
+        console.log('User not found:', req.userId);
+        return res.status(400).json({
+          errors: ['Usuário não existe'],
+        });
       }
 
-      Object.assign(user, req.body); // update the user instance with the new values
-
-      const { id, nome, email } = user;
-
-      // Retorna os dados atualizados do usuário em formato JSON
+      console.log('Updated user data:', req.body);
+      const novosDados = await user.update(req.body);
+      const { id, nome, email } = novosDados;
+      console.log('Updated user:', { id, nome, email });
       return res.json({ id, nome, email });
     } catch (e) {
+      console.log('Error updating user:', e);
       const errorMessages = e.errors && Array.isArray(e.errors) ? e.errors.map((err) => err.message) : ['Erro desconhecido'];
       return res.status(400).json({ errors: errorMessages });
     }
   }
 
-  // Método para deletar um usuário
+  // Delete
   async delete(req, res) {
     try {
-      const { userId } = req;
+      console.log('Deleting user:', req.userId);
+      const user = await User.findByPk(req.userId);
 
-      const user = await User.findByPk(userId);
-
-      // Verifica se o usuário existe
       if (!user) {
+        console.log('User not found:', req.userId);
         return res.status(400).json({
-          errors: ['Usuário não existe'], // Retorna um erro se o usuário não for encontrado
+          errors: ['Usuário não existe'],
         });
       }
 
-      // Deleta o usuário do banco de dados
+      console.log('User found:', user.id);
       await user.destroy();
-
-      // Retorna o usuário deletado em formato JSON
-      return res.json(user);
+      console.log('User deleted:', user.id);
+      return res.json(null);
     } catch (e) {
-      // Em caso de erro, retorna status 400 e uma lista de mensagens de erro
+      console.log('Error deleting user:', req.userId, e);
       return res.status(400).json({
-        errors: e.errors.map((err) => err.message), // Mapeia as mensagens de erro
+        errors: e.errors.map((err) => err.message),
       });
     }
   }
 }
 
-export default new UserController(); // Exporta uma instância da classe UserController
+export default new UserController();
