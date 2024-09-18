@@ -72,9 +72,6 @@ class UserController { // Define a classe UserController que contem métodos par
       }
 
       Object.assign(user, req.body); // update the user instance with the new values
-      await user.save(); // save the updated instance
-
-      console.log('Usuário atualizado com sucesso!');
 
       const { id, nome, email } = user;
 
