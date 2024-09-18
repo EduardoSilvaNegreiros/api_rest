@@ -1,18 +1,20 @@
 import jwt from 'jsonwebtoken';
 import User from '../models/User';
 
+const tokenSecret = process.env.TOKEN_SECRET;
+
 export default async (req, res, next) => {
-  const { authorization } = req.headers;
-
-  if (!authorization) {
-    return res.status(401).json({
-      errors: ['Login required'],
-    });
-  }
-
-  const [, token] = authorization.split(' ');
-
   try {
+    const { authorization } = req.headers;
+
+    if (!authorization) {
+      return res.status(401).json({
+        errors: ['Login Requerido'],
+      });
+    }
+
+    const [, token] = authorization.split(' ');
+
     const dados = jwt.verify(token, process.env.TOKEN_SECRET);
 
     const { id, email } = dados;
@@ -39,11 +41,17 @@ export default async (req, res, next) => {
     req.user = user;
     req.userId = id;
     req.userEmail = email;
-    return next();
+
+    next();
   } catch (e) {
-    console.error('Erro ao acessar dados:', e);
-    return res.status(500).json({
-      errors: ['Erro interno do servidor'],
+    if (e.name === 'TokenExpiredError') {
+      return res.status(401).json({
+        errors: ['Token expirado'],
+      });
+    }
+
+    return res.status(401).json({
+      errors: ['Token inválido'],
     });
   }
 };
