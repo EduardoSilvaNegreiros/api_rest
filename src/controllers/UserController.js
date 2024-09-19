@@ -50,8 +50,9 @@ class UserController {
       const { id, nome, email } = novosDados;
       return res.json({ id, nome, email });
     } catch (e) {
-      const errorMessages = e.errors && Array.isArray(e.errors) ? e.errors.map((err) => err.message) : ['Erro desconhecido'];
-      return res.status(400).json({ errors: errorMessages });
+      return res.status(400).json({
+        errors: e.errors.map((err) => err.message),
+      });
     }
   }
 

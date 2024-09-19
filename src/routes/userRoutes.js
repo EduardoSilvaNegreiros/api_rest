@@ -6,21 +6,19 @@ import loginRequired from '../middlewares/loginRequired';
 const router = new Router();
 
 // Não deveria existir
-router.get('/', userController.index); // Lista usuários (Falha de segurança)
-router.get('/:id', userController.show); // Lista usuário (Falha de segurança)
+// router.get('/', userController.index); // Lista usuários
+// router.get('/:id', userController.show); // Lista usuário
 
-// São necessários (Não é falha de segurança)
 router.post('/', userController.store);
-router.put('/', loginRequired, userController.update); // Não pode usar o Id para deixar o usuário editar, mas precisa fazer login para acessar e o usuário poder atualizar suas próprias informações
-router.delete('/', loginRequired, userController.delete); // Não pode usar o Id para deixar o usuário deletar
+router.put('/', loginRequired, userController.update);
+router.delete('/', loginRequired, userController.delete);
 
 export default router;
 
 /*
-Métodos para controller
-index => para listar os usuários => GET
-store/create => cria um novo usuário -> POST
-delete => apaga um usuário -> DELETE
-show => mostra um usuário -> GET
-update => atualiza um usuário -> PATCH OU PUT
+index -> lista todos os usuários -> GET
+store/create -> cria um novo usuário -> POST
+delete -> apaga um usuário -> DELETE
+show -> mostra um usuário -> GET
+update -> atualiza um usuário -> PATCH ou PUT
 */
