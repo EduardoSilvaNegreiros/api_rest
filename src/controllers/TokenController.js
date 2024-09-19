@@ -20,7 +20,7 @@ class TokenController {
         });
       }
 
-      const passwordIsValid = await user.checkPassword(password);
+      const passwordIsValid = await user.passwordIsValid(password);
 
       if (!passwordIsValid) {
         return res.status(401).json({
