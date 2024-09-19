@@ -1,44 +1,76 @@
-import { DataTypes, Model, Sequelize } from 'sequelize';
-import sequelize from '../config/database';
+import Sequelize, { Model } from 'sequelize';
 
-Sequelize.define = {
-  freezeTableName: true,
-  underscored: true,
-  timestamps: true,
-  createdAt: 'created_at',
-  updatedAt: 'updated_at',
-};
+export default class Aluno extends Model {
+  static init(sequelize) {
+    super.init({
+      nome: {
+        type: Sequelize.STRING,
+        defaultValue: '',
+        validate: {
+          len: {
+            args: [3, 255],
+            msg: 'Nome precisa ter entre 3 e 255 caracteres.',
+          },
+        },
+      },
+      sobrenome: {
+        type: Sequelize.STRING,
+        defaultValue: '',
+        validate: {
+          len: {
+            args: [3, 255],
+            msg: 'Sobrenome precisa ter entre 3 e 255 caracteres.',
+          },
+        },
+      },
+      email: {
+        type: Sequelize.STRING,
+        defaultValue: '',
+        unique: {
+          msg: 'E-mail já existe',
+        },
+        validate: {
+          isEmail: {
+            msg: 'E-mail inválido',
+          },
+        },
+      },
+      idade: {
+        type: Sequelize.INTEGER,
+        defaultValue: '',
+        validate: {
+          isInt: {
+            msg: 'Idade precisa ser um número inteiro',
+          },
+        },
+      },
+      peso: {
+        type: Sequelize.FLOAT,
+        defaultValue: '',
+        validate: {
+          isFloat: {
+            msg: 'Peso precisa ser um número inteiro ou de ponto flutuante',
+          },
+        },
+      },
+      altura: {
+        type: Sequelize.FLOAT,
+        defaultValue: '',
+        validate: {
+          isFloat: {
+            msg: 'Altura precisa ser um número inteiro ou de ponto flutuante',
+          },
+        },
+      },
+    }, {
+      sequelize,
+    });
+    return this;
+  }
 
-sequelize.options.define = {
-  freezeTableName: true,
-  underscored: true,
-  timestamps: true,
-  createdAt: 'created_at',
-  updatedAt: 'updated_at',
-};
+  static associate(models) {
+    this.hasMany(models.Foto, { foreignKey: 'aluno_id' });
+  }
+}
 
-class Aluno extends Model { }
-
-Aluno.init({
-  id: {
-    type: DataTypes.INTEGER,
-    primaryKey: true,
-    autoIncrement: true,
-  },
-  nome: DataTypes.STRING,
-  sobrenome: DataTypes.STRING,
-  email: DataTypes.STRING,
-  idade: DataTypes.INTEGER,
-  peso: DataTypes.FLOAT,
-  altura: DataTypes.FLOAT,
-}, {
-  sequelize,
-  modelName: 'Aluno',
-  tableName: 'alunos',
-  underscored: true,
-  timestamps: true,
-  createdAt: 'created_at',
-  updatedAt: 'updated_at',
-});
-
-export default Aluno;
+module.exports = Aluno;
