@@ -41,6 +41,13 @@ class UserController {
       // Busca o usuário pelo ID fornecido na URL (req.params.id)
       const user = await User.findByPk(req.params.id);
 
+      // Verifica se o usuário foi encontrado
+      if (!user) {
+        return res.status(404).json({
+          errors: ['Usuário não encontrado'],
+        });
+      }
+
       // Extrai os campos id, nome e email do usuário encontrado
       const { id, nome, email } = user;
 
