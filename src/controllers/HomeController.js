@@ -6,5 +6,5 @@ class HomeController {
   }
 }
 
-// Exporta uma instância da classe HomeController
+// Exporta uma instância da classe HomeController para uso em outras partes do aplicativo
 export default new HomeController();
