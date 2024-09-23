@@ -1,15 +1,16 @@
 const path = require('path');
 
+// Exporta a configuração de caminhos para a estrutura do projeto
 module.exports = {
   // Caminho para o arquivo de configuração do banco de dados
-  'config': path.resolve(__dirname, 'src', 'config', 'database.js'),
+  config: path.resolve(__dirname, 'src', 'config', 'database.js'),
 
   // Caminho para as migrações do banco de dados
-  'migrations-path': path.resolve(__dirname, 'src', 'database', 'migrations'),
+  migrationsPath: path.resolve(__dirname, 'src', 'database', 'migrations'),
 
   // Caminho para os seeders (scripts que preenchem o banco de dados com dados iniciais)
-  'seeders-path': path.resolve(__dirname, 'src', 'database', 'seeders'),
+  seedersPath: path.resolve(__dirname, 'src', 'database', 'seeders'),
 
   // Caminho para os modelos (models) Sequelize do projeto
-  'models-path': path.resolve(__dirname, 'src', 'models'),
+  modelsPath: path.resolve(__dirname, 'src', 'models'),
 };
