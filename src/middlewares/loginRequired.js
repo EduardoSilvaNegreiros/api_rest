@@ -17,17 +17,14 @@ export default async (req, res, next) => {
 
   try {
     // Verifica e decodifica o token usando a chave secreta definida nas variáveis de ambiente
-    const dados = jwt.verify(token, process.env.TOKEN_SECRET);
+    const decoded = jwt.verify(token, process.env.TOKEN_SECRET);
 
     // Extrai o id e o email dos dados decodificados do token
-    const { id, email } = dados;
+    const { id, email } = decoded;
 
     // Busca o usuário no banco de dados com o id e email obtidos do token
     const user = await User.findOne({
-      where: {
-        id,
-        email,
-      },
+      where: { id, email },
     });
 
     // Se o usuário não for encontrado, retorna um erro
@@ -37,6 +34,7 @@ export default async (req, res, next) => {
       });
     }
 
+    // Adiciona o id e o email do usuário no objeto da requisição
     req.userId = id;
     req.userEmail = email;
 
