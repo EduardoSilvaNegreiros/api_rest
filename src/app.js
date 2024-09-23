@@ -15,13 +15,13 @@ class App {
     // Cria uma instância da aplicação Express
     this.app = express();
 
-    // Chama os métodos que configuram os middlewares e rotas
-    this.middlewares();
-    this.routes();
+    // Configura middlewares e rotas
+    this.initializeMiddlewares();
+    this.initializeRoutes();
   }
 
   // Método que configura os middlewares
-  middlewares() {
+  initializeMiddlewares() {
     // Middleware para interpretar dados de formulários (URL-encoded)
     this.app.use(express.urlencoded({ extended: true }));
 
@@ -30,7 +30,7 @@ class App {
   }
 
   // Método que define as rotas da aplicação
-  routes() {
+  initializeRoutes() {
     // Rota para a página inicial ('/')
     this.app.use('/', homeRoutes);
 
