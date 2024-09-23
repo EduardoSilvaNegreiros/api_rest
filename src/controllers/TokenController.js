@@ -1,47 +1,39 @@
-import jwt from 'jsonwebtoken'; // Importa a biblioteca JWT para criação de tokens
-import User from '../models/User'; // Importa o modelo User, que contém a lógica para usuários no banco de dados
+import jwt from 'jsonwebtoken'; // Biblioteca para gerar tokens JWT
+import User from '../models/User'; // Modelo de usuário para interagir com o banco de dados
 
 class TokenController {
-  // Método para autenticar o usuário e gerar um token JWT
+  // Autentica o usuário e gera um token JWT
   async store(req, res) {
-    // Extrai email e senha do corpo da requisição, atribuindo valores vazios caso não existam
-    const { email = '', password = '' } = req.body;
+    const { email = '', password = '' } = req.body; // Desestrutura e-mail e senha, com valores padrão
 
-    // Verifica se o email ou a senha estão vazios
+    // Verifica se e-mail e senha foram fornecidos
     if (!email || !password) {
-      return res.status(401).json({
-        errors: ['Credenciais inválidas'], // Retorna erro caso os campos sejam inválidos
-      });
+      return res.status(401).json({ errors: ['Credenciais inválidas'] });
     }
 
-    // Busca o usuário no banco de dados com base no email fornecido
+    // Busca o usuário no banco de dados
     const user = await User.findOne({ where: { email } });
 
-    // Se o usuário não for encontrado, retorna erro de usuário inexistente
+    // Se o usuário não for encontrado, retorna um erro
     if (!user) {
-      return res.status(401).json({
-        errors: ['Usuário não existe'],
-      });
+      return res.status(401).json({ errors: ['Usuário não existe'] });
     }
 
-    // Verifica se a senha fornecida é válida comparando com a senha hashada no banco
-    if (!(await user.passwordIsValid(password))) {
-      return res.status(401).json({
-        errors: ['Senha inválida'], // Retorna erro se a senha estiver incorreta
-      });
+    // Verifica se a senha está correta
+    const isPasswordValid = await user.passwordIsValid(password);
+    if (!isPasswordValid) {
+      return res.status(401).json({ errors: ['Senha inválida'] });
     }
 
-    // Se o usuário for encontrado e a senha estiver correta, extrai o id
-    const { id } = user;
-
-    // Gera um token JWT assinado com o ID e email do usuário e define o tempo de expiração
+    // Gera o token JWT com ID e e-mail do usuário
+    const { id, nome } = user;
     const token = jwt.sign({ id, email }, process.env.TOKEN_SECRET, {
-      expiresIn: process.env.TOKEN_EXPIRATION, // O token expira em um tempo configurado
+      expiresIn: process.env.TOKEN_EXPIRATION,
     });
 
-    // Retorna o token e as informações do usuário (nome, id, email) na resposta
-    return res.json({ token, user: { nome: user.nome, id, email } });
+    // Retorna o token e as informações do usuário
+    return res.json({ token, user: { id, nome, email } });
   }
 }
 
-export default new TokenController(); // Exporta uma instância do TokenController
+export default new TokenController(); // Exporta a instância do TokenController
