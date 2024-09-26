@@ -104,8 +104,8 @@ class UserController {
       // Exclui o usuário do banco de dados
       await user.destroy();
 
-      // Retorna uma resposta JSON vazia (null) indicando que a exclusão foi bem-sucedida
-      return res.json(null);
+      // Retorna 'Usuário Deletado' indicando que a exclusão foi bem-sucedida
+      return res.json('Usuário Deletado');
     } catch (e) {
       // Em caso de erro, retorna uma resposta com status 400 e a lista de mensagens de erro
       return res.status(400).json({
