@@ -66,7 +66,33 @@ class AlunoController {
     }
   }
 
-  async update(req, res) { }
+  async update(req, res) {
+    try {
+      const { id } = req.params;
+
+      if (!id) {
+        return res.status(400).json({
+          errors: ['Faltando ID'],
+        });
+      }
+
+      const aluno = await Aluno.findByPk(id);
+
+      if (!aluno) {
+        return res.status(400).json({
+          errors: ['Aluno não existe'],
+        });
+      }
+
+      const alunoAtualizado = aluno.update(req.body);
+
+      return res.json(alunoAtualizado);
+    } catch (e) {
+      return res.status(400).json({
+        errors: e.errors.map((err) => err.message),
+      });
+    }
+  }
 }
 
 // Exporta uma instância da classe AlunoController
