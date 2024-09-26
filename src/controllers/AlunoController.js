@@ -21,6 +21,16 @@ class AlunoController {
           errors: ['Faltando ID'],
         });
       }
+
+      const aluno = await Aluno.findByPk(id);
+
+      if (!aluno) {
+        return res.status(400).json({
+          errors: ['Aluno não existe'],
+        });
+      }
+
+      return res.json(aluno);
     } catch (e) {
       return res.status(400).json({
         errors: e.errors.map((err) => err.message),
