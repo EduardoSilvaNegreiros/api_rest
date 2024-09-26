@@ -11,7 +11,7 @@ router.get('/:id', userController.show); // Lista usuário
 
 router.post('/', userController.store);
 router.put('/', loginRequired, userController.update);
-router.delete('/', loginRequired, userController.delete);
+router.delete('/:id', loginRequired, userController.delete);
 
 export default router;
 
