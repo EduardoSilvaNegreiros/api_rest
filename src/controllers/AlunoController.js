@@ -11,9 +11,22 @@ class AlunoController {
     res.json(alunos);
   }
 
-  async store(req, res) {}
+  async store(req, res) { }
 
-  async show(req, res) { }
+  async show(req, res) {
+    try {
+      const { id } = req.params;
+      if (!id) {
+        return res.status(400).json({
+          errors: ['Faltando ID'],
+        });
+      }
+    } catch (e) {
+      return res.status(400).json({
+        errors: e.errors.map((err) => err.message),
+      });
+    }
+  }
 
   async delete(req, res) { }
 
