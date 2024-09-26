@@ -10,6 +10,14 @@ class AlunoController {
     // Retorna a lista de alunos em formato JSON como resposta
     res.json(alunos);
   }
+
+  async store(req, res) {}
+
+  async show(req, res) { }
+
+  async delete(req, res) { }
+
+  async update(req, res) { }
 }
 
 // Exporta uma instância da classe AlunoController
