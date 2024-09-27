@@ -14,7 +14,7 @@ class UserController {
       return res.json(UserController.extractUserData(novoUser));
     } catch (e) {
       return res.status(400).json({
-        errors: e.errors.map(err => err.message),
+        errors: e.errors.map((err) => err.message),
       });
     }
   }
@@ -54,7 +54,7 @@ class UserController {
       return res.json(UserController.extractUserData(novosDados));
     } catch (e) {
       return res.status(400).json({
-        errors: e.errors.map(err => err.message),
+        errors: e.errors.map((err) => err.message),
       });
     }
   }
@@ -71,7 +71,7 @@ class UserController {
       return res.status(204).send(); // '204 No Content' para exclusão bem-sucedida
     } catch (e) {
       return res.status(400).json({
-        errors: e.errors.map(err => err.message),
+        errors: e.errors.map((err) => err.message),
       });
     }
   }

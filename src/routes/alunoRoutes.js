@@ -1,20 +1,17 @@
-// Importa o Router do Express para criar rotas
 import { Router } from 'express';
-
-// Importa o controlador responsável pelas operações relacionadas a alunos
 import alunoController from '../controllers/AlunoController';
-
 import loginRequired from '../middlewares/loginRequired';
 
-// Cria uma nova instância do Router
 const router = new Router();
 
-// Define uma rota GET para a raiz ('/') que chama o método index do AlunoController
-router.get('/', alunoController.index);
-router.post('/', loginRequired, alunoController.store);
-router.put('/:id', loginRequired, alunoController.update);
-router.get('/:id', alunoController.show);
-router.delete('/:id', loginRequired, alunoController.delete);
+// Rotas públicas
+router.get('/', alunoController.index); // Lista todos os alunos
+router.get('/:id', alunoController.show); // Exibe um aluno específico
 
-// Exporta o router para que possa ser utilizado em outras partes da aplicação
+// Rotas protegidas (requer login)
+router.use(loginRequired); // Aplica o middleware para as rotas abaixo
+router.post('/', alunoController.store); // Cria um novo aluno
+router.put('/:id', alunoController.update); // Atualiza um aluno existente
+router.delete('/:id', alunoController.delete); // Deleta um aluno
+
 export default router;
