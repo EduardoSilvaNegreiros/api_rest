@@ -5,13 +5,13 @@ import loginRequired from '../middlewares/loginRequired';
 const router = new Router();
 
 // Rotas públicas
-router.get('/', alunoController.index); // Lista todos os alunos
-router.get('/:id', alunoController.show); // Exibe um aluno específico
+router.get('/', alunoController.index); // Lista alunos
+router.get('/:id', alunoController.show); // Exibe aluno específico
 
-// Rotas protegidas (requer login)
-router.use(loginRequired); // Aplica o middleware para as rotas abaixo
-router.post('/', alunoController.store); // Cria um novo aluno
-router.put('/:id', alunoController.update); // Atualiza um aluno existente
-router.delete('/:id', alunoController.delete); // Deleta um aluno
+// Rotas protegidas
+router.use(loginRequired); // Middleware de autenticação
+router.post('/', alunoController.store); // Cria aluno
+router.put('/:id', alunoController.update); // Atualiza aluno
+router.delete('/:id', alunoController.delete); // Deleta aluno
 
-export default router;
+export default router; // Exporta o roteador
