@@ -1,20 +1,14 @@
-// Importa o Sequelize, que é a biblioteca ORM para se conectar ao banco de dados
-import Sequelize from 'sequelize';
+import Sequelize from 'sequelize'; // ORM para se conectar ao banco de dados
+import databaseConfig from '../config/database'; // Configurações do banco de dados
+import Aluno from '../models/Aluno'; // Modelo Aluno
+import User from '../models/User'; // Modelo User
 
-// Importa as configurações do banco de dados definidas no arquivo config/database.js
-import databaseConfig from '../config/database';
+const models = [Aluno, User]; // Array com todos os modelos
 
-// Importa os modelos Aluno e User
-import Aluno from '../models/Aluno';
-import User from '../models/User';
+const connection = new Sequelize(databaseConfig); // Cria a conexão com o banco
 
-// Cria um array com todos os modelos que serão inicializados no banco de dados
-const models = [Aluno, User];
-
-// Cria a conexão com o banco de dados usando as configurações fornecidas
-const connection = new Sequelize(databaseConfig);
-
-// Inicializa cada modelo, associando-o à conexão com o banco de dados
+// Inicializa cada modelo com a conexão
 models.forEach((model) => model.init(connection));
 
+// Associa os modelos se houver a função associate
 models.forEach((model) => model.associate && model.associate(connection.models));
