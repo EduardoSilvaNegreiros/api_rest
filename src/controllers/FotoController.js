@@ -8,7 +8,7 @@ class FotoController {
     return upload(req, res, (error) => {
       if (error) {
         return res.status(400).json({
-          errors: [error],
+          errors: [error.code],
         });
       }
 
