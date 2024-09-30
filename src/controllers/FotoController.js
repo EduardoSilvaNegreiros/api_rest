@@ -12,7 +12,7 @@ class FotoController {
         });
       }
 
-      res.json(req.file);
+      return res.json(req.file);
     });
   }
 }
