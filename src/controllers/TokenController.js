@@ -1,10 +1,10 @@
 import jwt from 'jsonwebtoken'; // Biblioteca para gerar tokens JWT
-import User from '../models/User'; // Modelo de usuário para interagir com o banco de dados
+import User from '../models/User'; // Modelo de usuário
 
 class TokenController {
   // Autentica o usuário e gera um token JWT
   async store(req, res) {
-    const { email = '', password = '' } = req.body; // Desestrutura e-mail e senha, com valores padrão
+    const { email = '', password = '' } = req.body; // Desestrutura e-mail e senha
 
     // Verifica se e-mail e senha foram fornecidos
     if (!email || !password) {
@@ -31,7 +31,7 @@ class TokenController {
       expiresIn: process.env.TOKEN_EXPIRATION,
     });
 
-    // Retorna o token e as informações do usuário
+    // Retorna o token e informações do usuário
     return res.json({ token, user: { id, nome, email } });
   }
 }
