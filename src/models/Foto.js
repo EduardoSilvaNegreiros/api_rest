@@ -4,17 +4,27 @@ export default class Foto extends Model {
   static init(sequelize) {
     super.init(
       {
-        nome: {
+        originalname: {
           type: Sequelize.STRING,
           defaultValue: '',
           validate: {
-            len: {
-              args: [3, 255],
-              msg: 'Nome precisa ter entre 3 e 255 caracteres.',
+            notEmpty: {
+              msg: 'Campo não pode ficar vazio.',
+            },
+          },
+        },
+
+        filename: {
+          type: Sequelize.STRING,
+          defaultValue: '',
+          validate: {
+            notEmpty: {
+              msg: 'Campo não pode ficar vazio.',
             },
           },
         },
       },
+
       {
         sequelize, // Passa a conexão Sequelize
       },
