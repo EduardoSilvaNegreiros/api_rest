@@ -10,7 +10,12 @@ module.exports = {
         primaryKey: true,
       },
 
-      nome: {
+      originalname: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+
+      filename: {
         type: Sequelize.STRING,
         allowNull: false,
       },
