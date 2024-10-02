@@ -21,11 +21,6 @@ module.exports = {
         allowNull: false,
       },
 
-      created_at: {
-        type: Sequelize.DATE,
-        allowNull: false,
-      },
-
       aluno_id: {
         type: Sequelize.INTEGER,
         allowNull: true,
@@ -35,6 +30,11 @@ module.exports = {
         },
         onDelete: 'SET NULL',
         onUpdate: 'CASCADE',
+      },
+
+      created_at: {
+        type: Sequelize.DATE,
+        allowNull: false,
       },
 
       updated_at: {
