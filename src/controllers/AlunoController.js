@@ -1,5 +1,5 @@
-// Importa o modelo Aluno
 import Aluno from '../models/Aluno';
+import Foto from '../models/Foto';
 
 class AlunoController {
   // Lista todos os alunos
@@ -7,6 +7,9 @@ class AlunoController {
     const alunos = await Aluno.findAll({
       attributes: ['id', 'nome', 'sobrenome', 'email', 'idade', 'peso', 'altura'],
       order: [['id', 'DESC']],
+      include: {
+        model: Foto, 
+      }
     });
     return res.json(alunos);
   }
