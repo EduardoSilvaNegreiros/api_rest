@@ -4,7 +4,9 @@ import Aluno from '../models/Aluno';
 class AlunoController {
   // Lista todos os alunos
   async index(req, res) {
-    const alunos = await Aluno.findAll();
+    const alunos = await Aluno.findAll({
+      attributes: ['id', 'nome', 'sobrenome', 'email', 'idade', 'peso', 'altura'],
+    });
     return res.json(alunos);
   }
 
