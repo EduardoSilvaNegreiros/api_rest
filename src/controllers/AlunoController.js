@@ -8,8 +8,8 @@ class AlunoController {
       attributes: ['id', 'nome', 'sobrenome', 'email', 'idade', 'peso', 'altura'],
       order: [['id', 'DESC']],
       include: {
-        model: Foto, 
-      }
+        model: Foto,
+      },
     });
     return res.json(alunos);
   }
