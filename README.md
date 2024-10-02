@@ -47,7 +47,7 @@ Este projeto é uma API REST básica, desenvolvida com JavaScript e utilizando o
 
 3. Rode o projeto:
     ```bash
-    npm start
+    npm run dev
     ```
 
 ## Autor
