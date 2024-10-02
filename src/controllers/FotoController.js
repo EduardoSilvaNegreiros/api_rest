@@ -1,6 +1,8 @@
 import multer from 'multer';
 import multerConfig from '../config/multerConfig';
 
+import Foto from '../models/Foto';
+
 const upload = multer(multerConfig).single('foto');
 
 class FotoController {
@@ -12,7 +14,10 @@ class FotoController {
         });
       }
 
-      return res.json(req.file);
+      const { originalname, filename } = req.file;
+      const foto = await Foto.create({ originalname, filename });
+
+      return res.json(foto);
     });
   }
 }
