@@ -28,5 +28,6 @@ module.exports = {
     "class-methods-use-this": "off", // Desativa a regra que força métodos de classe a usarem `this`
     "import/first": "off", // Desativa a regra que força as importações a estarem no topo do arquivo
     "no-param-reassign": "off", // Desativa a regra que impede a reatribuição de parâmetros de função
+    "camelcase": "off",
   },
 };
