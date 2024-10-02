@@ -1,5 +1,6 @@
 // Importa a configuração do banco de dados (conexão e modelos)
 import './database';
+import { dirname, resolve } from 'path';
 
 // Importa o framework Express para criar o servidor e gerenciar rotas
 import express from 'express';
@@ -17,21 +18,22 @@ class App {
     this.app = express();
 
     // Configura middlewares e rotas
-    this.initializeMiddlewares();
-    this.initializeRoutes();
+    this.middlewares();
+    this.routes();
   }
 
   // Método que configura os middlewares
-  initializeMiddlewares() {
+  middlewares() {
     // Middleware para interpretar dados de formulários (URL-encoded)
     this.app.use(express.urlencoded({ extended: true }));
 
     // Middleware para interpretar dados no formato JSON
     this.app.use(express.json());
+    this.app.use(express.static(resolve(__dirname, 'uploads')));
   }
 
   // Método que define as rotas da aplicação
-  initializeRoutes() {
+  routes() {
     // Rota para a página inicial ('/')
     this.app.use('/', homeRoutes);
 
