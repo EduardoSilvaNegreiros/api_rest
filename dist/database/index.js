@@ -1,35 +1,12 @@
-"use strict"; function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }var _sequelize = require('sequelize');
-var _databasejs = require('../config/database.js'); var _databasejs2 = _interopRequireDefault(_databasejs);
-var _Alunojs = require('../models/Aluno.js'); var _Alunojs2 = _interopRequireDefault(_Alunojs);
+"use strict"; function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }var _sequelize = require('sequelize'); var _sequelize2 = _interopRequireDefault(_sequelize);
+var _database = require('../config/database'); var _database2 = _interopRequireDefault(_database);
+var _Aluno = require('../models/Aluno'); var _Aluno2 = _interopRequireDefault(_Aluno);
+var _User = require('../models/User'); var _User2 = _interopRequireDefault(_User);
+var _Foto = require('../models/Foto'); var _Foto2 = _interopRequireDefault(_Foto);
 
-const models = [_Alunojs2.default];
+const models = [_Aluno2.default, _User2.default, _Foto2.default];
 
-const connection = new (0, _sequelize.Sequelize)(
-  process.env.DATABASE_NAME,
-  process.env.DATABASE_USERNAME,
-  process.env.DATABASE_PASSWORD,
+const connection = new (0, _sequelize2.default)(_database2.default);
 
-  {
-    dialect: 'mysql',
-    host: process.env.DATABASE_HOST,
-    port: 3306,
-    username: process.env.DATABASE_USERNAME,
-    password: process.env.DATABASE_PASSWORD,
-    database: process.env.DATABASE_NAME,
-    define: {
-      timestamps: true,
-      underscored: true,
-      underscoredAll: true,
-      createdAt: 'created_at',
-      updatedAt: 'updated_at'
-    },
-
-    dialectOptions: {
-      timezone: 'America/Sao_Paulo'
-    },
-
-    timezone: 'America/Sao_Paulo'
-  }
-)
-
-models.forEach(model => model.init(connection))
+models.forEach((model) => model.init(connection));
+models.forEach((model) => model.associate && model.associate(connection.models));
