@@ -6,7 +6,7 @@ class AlunoController {
   async index(req, res) {
     const alunos = await Aluno.findAll({
       attributes: ['id', 'nome', 'sobrenome', 'email', 'idade', 'peso', 'altura'],
-      order: [['id', 'DESC']],
+      order: [['id', 'DESC'], [Foto, 'id', 'DESC']],
       include: {
         model: Foto,
       },
