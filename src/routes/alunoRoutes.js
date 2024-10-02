@@ -11,7 +11,7 @@ router.get('/:id', alunoController.show); // Exibe aluno específico
 // Rotas protegidas
 router.use(loginRequired); // Middleware de autenticação
 router.post('/', alunoController.store); // Cria aluno
-router.put('/:id', alunoController.update); // Atualiza aluno
-router.delete('/:id', alunoController.delete); // Deleta aluno
+router.put('/', alunoController.update); // Atualiza aluno
+router.delete('/', alunoController.delete); // Deleta aluno
 
 export default router; // Exporta o roteador

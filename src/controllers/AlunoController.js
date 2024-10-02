@@ -101,5 +101,4 @@ class AlunoController {
   }
 }
 
-// Exporta a classe AlunoController
 export default new AlunoController();
