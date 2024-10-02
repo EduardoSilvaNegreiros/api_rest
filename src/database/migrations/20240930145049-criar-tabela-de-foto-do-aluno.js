@@ -3,6 +3,7 @@ require('dotenv').config(); // Carrega as variáveis de ambiente do arquivo .env
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable('fotos', {
+      // Cria a tabela 'fotos' no banco de dados
       id: {
         type: Sequelize.INTEGER,
         allowNull: false,
@@ -24,6 +25,18 @@ module.exports = {
         type: Sequelize.DATE,
         allowNull: false,
       },
+
+      aluno_id: {
+        type: Sequelize.INTEGER,
+        allowNull: true,
+        references: {
+          model: 'alunos',
+          key: 'id',
+        },
+        onDelete: 'SET NULL',
+        
+
+      }
 
       updated_at: {
         type: Sequelize.DATE,
