@@ -1,17 +1,10 @@
-"use strict";Object.defineProperty(exports, "__esModule", {value: true}); function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }var _Aluno = require('../models/Aluno'); var _Aluno2 = _interopRequireDefault(_Aluno);
-
-class HomeController {
+"use strict";Object.defineProperty(exports, "__esModule", {value: true});class HomeController {
+  // Método assíncrono 'index' que lida com a requisição GET na rota '/'
   async index(req, res) {
-    const novoAluno = await _Aluno2.default.create({
-      nome: 'Eduardo',
-      sobrenome: 'Negreiros',
-      email: 'edunegreiross@gmail.com',
-      idade: 18,
-      peso: 85,
-      altura: 1.7,
-    });
-    res.json(novoAluno);
+    // Envia uma resposta em formato JSON com a string 'Index'
+    res.json('Index');
   }
 }
 
+// Exporta uma instância da classe HomeController para uso em outras partes do aplicativo
 exports. default = new HomeController();
