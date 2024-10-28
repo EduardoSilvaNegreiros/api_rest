@@ -26,8 +26,9 @@ class App {
 
   // Método que configura os middlewares
   middlewares() {
+    this.app.use(cors());
+    this.app.use(helmet());
     this.app.use(express.urlencoded({ extended: true }));
-
     this.app.use(express.json());
     this.app.use(express.static(resolve(__dirname, '..', 'uploads', 'images')));
   }
