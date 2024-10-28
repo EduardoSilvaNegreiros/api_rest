@@ -20,12 +20,12 @@ class App {
     this.app = express();
 
     // Configura middlewares e rotas
-    this.initializeMiddlewares();
-    this.initializeRoutes();
+    this.middlewares();
+    this.routes();
   }
 
   // Método que configura os middlewares
-  initializeMiddlewares() {
+  middlewares() {
     this.app.use(express.urlencoded({ extended: true }));
 
     this.app.use(express.json());
@@ -33,7 +33,7 @@ class App {
   }
 
   // Método que define as rotas da aplicação
-  initializeRoutes() {
+  routes() {
     this.app.use('/', homeRoutes);
 
     this.app.use('/users/', userRoutes);
