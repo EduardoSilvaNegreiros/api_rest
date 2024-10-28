@@ -32,7 +32,7 @@ class TokenController {
     });
 
     // Retorna o token e informações do usuário
-    return res.json({ token, user: { nome: user.nome, id, email } });
+    return res.json({ token, user: { nome, id, email } });
   }
 }
 
