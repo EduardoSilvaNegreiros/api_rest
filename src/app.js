@@ -14,6 +14,11 @@ import tokenRoutes from './routes/tokenRoutes';
 import alunoRoutes from './routes/alunoRoutes';
 import fotoRoutes from './routes/fotoRoutes';
 
+const whitelist = [
+  'https://react1.eduardonegreiros.com.br',
+  'http://localhost:3000',
+];
+
 class App {
   constructor() {
     // Cria uma instância da aplicação Express
