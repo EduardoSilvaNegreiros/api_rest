@@ -4,6 +4,8 @@ import { resolve } from 'path';
 
 // Importa o framework Express para criar o servidor e gerenciar rotas
 import express from 'express';
+import cors from 'cors';
+import helmet from 'helmet';
 
 // Importa as rotas definidas em arquivos separados
 import homeRoutes from './routes/homeRoutes';
