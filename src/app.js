@@ -19,6 +19,12 @@ const whitelist = [
   'http://localhost:3000',
 ];
 
+const corsOptions = {
+  origin(origin, callbacks) {
+    
+  },
+};
+
 class App {
   constructor() {
     // Cria uma instância da aplicação Express
