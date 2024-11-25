@@ -17,7 +17,7 @@ import fotoRoutes from './routes/fotoRoutes';
 // Define a lista de origens permitidas para CORS
 const whitelist = [
   'https://react1.eduardonegreiros.com.br',
-  'http://localhost:3000',
+  'http://localhost:3001',
 ];
 
 // Configurações de CORS
