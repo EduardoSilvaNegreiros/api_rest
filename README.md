@@ -17,19 +17,6 @@ Este projeto consiste em uma API REST básica, desenvolvida em JavaScript utiliz
 - **Update**: Atualização de informações previamente cadastradas.
 - **Delete**: Exclusão de registros do banco de dados.
 
-## Como Executar o Projeto
-
-1. Clone o repositório:
-   ```sh
-   git clone https://github.com/seu-usuario/seu-repositorio.git
-   ```
-
-2. Configure as variáveis de ambiente para conectar ao banco de dados MySQL.
-
-3. Execute o servidor na Google Cloud Platform ou localmente.
-
-4. Utilize um cliente de API (como Postman) para testar as rotas da API.
-
 ## Estrutura do Projeto
 
 - **Models**: Define a estrutura dos dados e interage diretamente com o MySQL.
@@ -51,7 +38,6 @@ Este projeto consiste em uma API REST básica, desenvolvida em JavaScript utiliz
 
 2. Configure o banco de dados no MySQL e ajuste as variáveis de ambiente no arquivo `.env`.
 
-3. Execute o projeto:
-   ```sh
-   npm run dev
-   ```
+## Autor
+
+Este projeto foi desenvolvido como parte de um estudo prático sobre API REST utilizando MySQL e o padrão MVC.
